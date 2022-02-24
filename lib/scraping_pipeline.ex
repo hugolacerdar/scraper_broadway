@@ -38,4 +38,10 @@ defmodule ScrapingPipeline do
             Broadway.Message.failed(message, "offline")
         end
     end
+
+    def handle_batch(_batcher, [message], _batch_info, _context) do
+        Logger.info("Batch Processor received #{message.data}")
+        Scraper.work()
+        [message]
+    end
 end
